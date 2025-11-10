@@ -1,0 +1,66 @@
+:root { font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; }
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+.app {
+  position: relative; height: 100vh; background: #0b0d11; color: #f5f7fb; overflow: hidden;
+}
+.overlay {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.panel {
+  position: absolute; left: 1rem; right: 1rem; pointer-events: auto;
+  background: rgba(16,18,24,0.45); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px;
+}
+.panel.transcript { bottom: 1rem; max-height: 35vh; overflow: auto; }
+.panel.controls { top: 1rem; display: flex; gap: 12px; align-items: center; }
+.chip {
+  display: inline-block; margin: 6px 6px 0 0; padding: 6px 10px;
+  border-radius: 999px; border: 1px solid rgba(255,255,255,0.12);
+  opacity: 0; animation: fadeInUp 500ms forwards;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.mic-indicator { width: 10px; height: 10px; border-radius: 50%; background: #d9534f; }
+.mic-indicator.live { background: #4bd37b; box-shadow: 0 0 0 8px rgba(75,211,123,0.15); }
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/*Error Banner Styles*/
+.error-banner {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 64, 64, 0.95); color: #fff;
+  padding: 10px 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25); display: flex; align-items: center;
+  gap: 10px; z-index: 9999; cursor: default; pointer-events: auto; animation: fadeSlideIn 0.4s ease-out;
+}
+
+.error-text {flex: 1; font-size: 0.9rem;}
+
+.error-close {
+  background: transparent; border: none; color: #fff; font-size: 18px; font-weight: bold; line-height: 1; cursor: pointer;
+  padding: 0; margin-left: 4px; transition: transform 0.1s ease, opacity 0.2s;
+}
+
+.error-close:hover { transform: scale(1.2); opacity: 0.85;}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
