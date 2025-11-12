@@ -18,7 +18,7 @@ export function connectDeepgram({ apiKey, onTranscript, onClose, onError }) {
           ws.send(buffer);
         }
       };
-      mediaRecorder.start(100); // send every 100ms
+      mediaRecorder.start(100); 
     } catch (err) {
       onError?.(err);
       ws.close();
@@ -28,7 +28,6 @@ export function connectDeepgram({ apiKey, onTranscript, onClose, onError }) {
   ws.onmessage = (m) => {
     try {
       const data = JSON.parse(m.data);
-      // Deepgram sends channel.alternatives with transcript segments
       const alt = data?.channel?.alternatives?.[0];
       if (alt?.transcript) {
         const is_final = !!data?.is_final;

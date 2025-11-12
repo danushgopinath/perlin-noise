@@ -5,11 +5,10 @@ export default function Aura({ sentimentScore = 0.5 }) {
   const zoff = useRef(0)
   const currentScore = useRef(sentimentScore)
   const targetScore = useRef(sentimentScore)
-  
-  // Update target when prop changes
-  useEffect(() => {
-    targetScore.current = sentimentScore
-  }, [sentimentScore])
+
+  const smooth = useRef({ hue: 200 + sentimentScore * 140, speed: 0.001 + sentimentScore * 0.01, scale: 0.002 + (1 - sentimentScore) * 0.004 })
+
+  useEffect(() => { targetScore.current = sentimentScore }, [sentimentScore])
 
   const setup = (p5, canvasParentRef) => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef)
@@ -18,33 +17,46 @@ export default function Aura({ sentimentScore = 0.5 }) {
   }
 
   const draw = (p5) => {
-    // Smooth interpolation towards target
-    const lerpSpeed = 0.05 // Adjust for smoother/faster transitions
-    currentScore.current += (targetScore.current - currentScore.current) * lerpSpeed
-    
-    const s = currentScore.current // Now smoothly animated
-    const hue = 200 + (s * 140)      // blue-green to orange-red
-    const speed = 0.001 + s * 0.01   // animation speed
-    const scale = 0.002 + (1 - s) * 0.004 // noise scale
+    const scoreEase = 0.06
+    currentScore.current += (targetScore.current - currentScore.current) * scoreEase
 
-    p5.background(0, 0, 5, 8) // motion blur
+    const s = currentScore.current
+    const targetHue   = 200 + (s * 140)                 
+    const targetSpeed = 0.001 + s * 0.01                
+    const targetScale = 0.002 + (1 - s) * 0.004         
 
-    const step = 30
+    const ease = 0.08
+    smooth.current.hue   += (targetHue   - smooth.current.hue)   * ease
+    smooth.current.speed += (targetSpeed - smooth.current.speed) * ease
+    smooth.current.scale += (targetScale - smooth.current.scale) * ease
+
+    const hue   = smooth.current.hue
+    const speed = smooth.current.speed
+    const scale = smooth.current.scale
+
+    p5.background(0, 0, 5, 12)
+
+    const step = 50                    
+    const jitter = 0.25                 
+
     for (let x = 0; x < p5.width; x += step) {
       for (let y = 0; y < p5.height; y += step) {
         const n = p5.noise(x * scale, y * scale, zoff.current)
-        const b = 30 + n * 70
-        p5.fill(hue, 80, b, 40 + n * 60)
-        const size = step * (0.6 + n * 1.2)
-        p5.rect(x, y, size, size)
+        const b = 32 + n * 68
+        const a = 30 + n * 50
+        const size = step * (0.85 + n * 0.9)
+
+        const ox = (n - 0.5) * step * jitter
+        const oy = (n - 0.5) * step * jitter
+
+        p5.fill(hue, 80, b, a)
+        p5.rect(x + ox, y + oy, size, size, 4) 
       }
     }
-    zoff.current += speed
+    zoff.current += speed * 0.8
   }
 
-  const windowResized = (p5) => {
-    p5.resizeCanvas(p5.windowWidth, p5.windowHeight)
-  }
+  const windowResized = (p5) => p5.resizeCanvas(p5.windowWidth, p5.windowHeight)
 
   return <Sketch setup={setup} draw={draw} windowResized={windowResized} />
 }
