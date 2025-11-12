@@ -1,16 +1,66 @@
-# React + Vite
+# 🧠 Memory Machines – Sentiment Aura
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack interactive app that visualizes real-time sentiment as a glowing, animated aura.  
+It captures live audio, transcribes it, analyzes sentiment, and updates visuals dynamically.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## React Compiler
+- **Frontend:** React, p5.js, Tailwind CSS  
+- **Backend:** FastAPI (Python), Deepgram Speech-to-Text API  
+- **Language:** JavaScript / Python  
+- **Deployment:** Local or Cloud (GitHub, Vercel, etc.)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🎙️ Real-time speech transcription  
+- 💬 Sentiment analysis with visual feedback  
+- 🌈 Animated aura that changes color and motion based on sentiment  
+- 🧾 Transcript and control interface with start/stop buttons  
+- 🔒 `.env` file used for API keys (excluded from GitHub)
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/<your-username>/<your-repo>.git
+cd sentiment_aura
+```
+
+### 2. Backend setup
+
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+### 3. Frontend setup
+
+```bash
+cd ../frontend
+npm install
+npm start
+```
+
+---
+
+## 🔑 Environment Variables
+
+Create a `.env` file inside the `backend` folder:
+
+```env
+OPENAI_API_KEY=your_api_key_here
+```
+
+Create a `.env` file inside the `frontend` folder:
+
+```env
+VITE_DEEPGRAM_API_KEY=your_api_key_here
+```
