@@ -101,6 +101,10 @@ Output: {"sentiment_label": "very_negative", "sentiment_score": 0.08, "keywords"
 
 Remember: Output ONLY the JSON object, no explanations or additional text."""
 
+@app.get("/")
+def home():
+    return {"message": "Backend is live"}
+
 @app.post("/process_text", response_model=ProcessTextOut)
 def process_text(body: ProcessTextIn):
     try:
